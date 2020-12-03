@@ -14,3 +14,9 @@ class TestDayThree:
         d = DayThree("tests/test-three-one.txt")
         with pytest.raises(NoMoveError):
             d.move((1, 0))
+
+    def test_proceed(self):
+        d = DayThree("tests/test-three-one.txt")
+        d.starting_position = (0, 9)
+        d.proceed()
+        assert d.trees_encountered == 2

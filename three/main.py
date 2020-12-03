@@ -9,9 +9,9 @@ class NoMoveError(Exception):
 
 
 class DayThree(ReadLines):
-    def __init__(self, file_path="/three/input.txt"):
+    def __init__(self, file_path="three/input.txt", pattern=(1, 3)):
         super().__init__(file_path)
-        self.pattern = (1, 3)
+        self.pattern = pattern
         self.starting_position = (0, 0)
         self.trees_encountered = 0
 

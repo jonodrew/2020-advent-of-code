@@ -27,7 +27,6 @@ class DayThree(ReadLines):
         return (new_y, new_x)
 
     def is_tree(self, position: Tuple[int, int]) -> bool:
-        print("TREE")
         return self.inputs[position[0]][position[1]] == "#"
 
     def proceed(self):

@@ -20,7 +20,7 @@ class DayThree(ReadLines):
             raise NoMoveError
         else:
             new_y = current_position[0] + self.pattern[0]
-        if current_position[1] + self.pattern[1] > len(self.inputs[0]):
+        if current_position[1] + self.pattern[1] > len(self.inputs[0]) - 1:
             new_x = current_position[1] + self.pattern[1] - len(self.inputs[0])
         else:
             new_x = current_position[1] + self.pattern[1]

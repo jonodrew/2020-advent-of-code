@@ -8,8 +8,18 @@ class DayThree(ReadLines):
         self.pattern = (1, 3)
 
     def move(self, current_position: Tuple[int, int]) -> Tuple[int, int]:
+        if current_position[0] == len(self.inputs) - 1:
+            raise NoMoveError
+        else:
+            new_y = current_position[0] + self.pattern[0]
         if current_position[1] + self.pattern[1] > len(self.inputs[0]):
             new_x = current_position[1] + self.pattern[1] - len(self.inputs[0])
         else:
             new_x = current_position[1] + self.pattern[1]
-        return (current_position[0] + self.pattern[0], new_x)
+        return (new_y, new_x)
+
+
+class NoMoveError(Exception):
+    """Raised when user is at bottom of map"""
+
+    pass

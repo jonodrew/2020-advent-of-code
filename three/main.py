@@ -8,7 +8,8 @@ class DayThree(ReadLines):
         self.pattern = (1, 3)
 
     def move(self, current_position: Tuple[int, int]) -> Tuple[int, int]:
-        return (
-            current_position[0] + self.pattern[0],
-            current_position[1] + self.pattern[1],
-        )
+        if current_position[1] + self.pattern[1] > len(self.inputs[0]):
+            new_x = current_position[1] + self.pattern[1] - len(self.inputs[0])
+        else:
+            new_x = current_position[1] + self.pattern[1]
+        return (current_position[0] + self.pattern[0], new_x)

@@ -18,9 +18,10 @@ class DayThree(ReadLines):
     def move(self, current_position: Tuple[int, int]) -> Tuple[int, int]:
         if current_position[0] == len(self.inputs) - 1:
             raise NoMoveError
-        else:
-            new_y = current_position[0] + self.pattern[0]
-        return (new_y, (current_position[1] + self.pattern[1]) % len(self.inputs[0]))
+        return (
+            current_position[0] + self.pattern[0],
+            (current_position[1] + self.pattern[1]) % len(self.inputs[0]),
+        )
 
     def is_tree(self, position: Tuple[int, int]) -> bool:
         return self.inputs[position[0]][position[1]] == "#"

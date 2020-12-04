@@ -11,17 +11,21 @@ class Passport(object):
             self.__setattr__(f'_{field[0]}', None)
             self.__setattr__(field[0], kwargs.get(field[0], field[1]))
 
+    @staticmethod
+    def _value_validator(value: str, max: int, min: int) -> Union[int, None]:
+        value = int(value)
+        if max >= value >= min:
+            return value
+        else:
+            return None
+
     @property
     def byr(self):
         return self._byr
 
     @byr.setter
     def byr(self, value):
-        value = int(value)
-        if 2002 >= value >= 1920:
-            self._byr = value
-        else:
-            self._byr = None
+        self._byr = self._value_validator(value, 2002, 1920)
 
     @property
     def iyr(self):
@@ -29,11 +33,7 @@ class Passport(object):
 
     @iyr.setter
     def iyr(self, value):
-        value = int(value)
-        if 2020 >= value >= 2010:
-            self._iyr = value
-        else:
-            self._iyr = None
+        self._iyr = self._value_validator(value, 2020, 2010)
 
     @property
     def eyr(self):
@@ -41,11 +41,7 @@ class Passport(object):
 
     @eyr.setter
     def eyr(self, value):
-        value = int(value)
-        if 2030 >= value >= 2020:
-            self._eyr = value
-        else:
-            self._eyr = None
+        self._eyr = self._value_validator(value, 2030, 2020)
 
     @property
     def hgt(self):

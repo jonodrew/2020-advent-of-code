@@ -7,8 +7,12 @@ class DayFive(ReadLines):
         self, file_path="/home/jonathan/projects/2020-advent-of-code/five/input.txt"
     ):
         super().__init__(file_input=file_path)
+        self.seat_ids = sorted(
+            [DayFive.identify_seat(seat_code)[2] for seat_code in self.inputs]
+        )
 
-    def _process_code(self, code: List[str], _range: Tuple[int, int]) -> int:
+    @staticmethod
+    def _process_code(code: List[str], _range: Tuple[int, int]) -> int:
         if len(code) == 1:
             keys = {"L": 0, "F": 0, "R": 1, "B": 1}
             return _range[keys[code[0]]]
@@ -19,10 +23,19 @@ class DayFive(ReadLines):
                 new_range = _range[0], _range[0] + mid_point - 1
             elif next_letter == "B" or next_letter == "R":
                 new_range = _range[0] + mid_point, _range[1]
-            return self._process_code(code, new_range)
+            return DayFive._process_code(code, new_range)
 
-    def identify_seat(self, seat_reference: str) -> Tuple[int, int, int]:
-        row = self._process_code(list(seat_reference[:7]), (0, 127))
-        column = self._process_code(list(seat_reference[-3:]), (0, 7))
+    @staticmethod
+    def identify_seat(seat_reference: str) -> Tuple[int, int, int]:
+        row = DayFive._process_code(list(seat_reference[:7]), (0, 127))
+        column = DayFive._process_code(list(seat_reference[-3:]), (0, 7))
         seat_id = row * 8 + column
         return row, column, seat_id
+
+    def highest_id(self):
+        return max(self.seat_ids)
+
+    def find_missing_id(self) -> int:
+        all_ids = set([i for i in range(min(self.seat_ids), max(self.seat_ids) + 1)])
+        seat_ids = set(self.seat_ids)
+        return all_ids.difference(seat_ids).pop()

@@ -1,5 +1,5 @@
 from typing import List, Dict, Any
-from helpers import ReadLines
+from helpers import AdventOfCodeHelpers
 import re
 from typing import Union
 
@@ -120,27 +120,18 @@ class Validator(object):
         return True
 
 
-class DayFour(ReadLines):
+class DayFour(AdventOfCodeHelpers):
     def __init__(
         self,
         path_to_input="four/input.txt",
         valid_fields=("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"),
     ):
         super().__init__(path_to_input)
-        self.passports = self.process_passport_data()
+        self.passports = [
+            Passport.process_unstructured_data(data) for data in self._group()
+        ]
         self.validator = Validator(valid_fields)
         self.valid_passport_count = self.valid_passports()
-
-    def process_passport_data(self):
-        passports = []
-        data = []
-        for line in self.inputs:
-            if line == "":
-                passports.append(Passport.process_unstructured_data(data))
-                data = []
-            else:
-                data.append(line)
-        return passports
 
     def valid_passports(self):
         return [self.validator.validate_passport(p) for p in self.passports].count(True)

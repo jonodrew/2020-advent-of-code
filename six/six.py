@@ -1,9 +1,9 @@
-from helpers import ReadLines
-from typing import List, Union
+from helpers import AdventOfCodeHelpers
+from typing import List
 import abc
 
 
-class DaySix(ReadLines):
+class DaySix(AdventOfCodeHelpers):
     def __init__(self, input_path=None):
         if input_path is None:
             input_path = "/home/jonathan/projects/2020-advent-of-code/six/input.txt"
@@ -12,17 +12,6 @@ class DaySix(ReadLines):
         self.sum_of_counts: int = sum(
             self._yeses_in_group(group) for group in self.groups
         )
-
-    def _group(self) -> List[List[str]]:
-        groups = []
-        group: List[str] = []
-        for line in self.inputs:
-            if line == "":
-                groups.append(group)
-                group = []
-            else:
-                group.append(line)
-        return groups
 
     @staticmethod
     @abc.abstractmethod

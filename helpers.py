@@ -1,4 +1,5 @@
 from typing import List
+import itertools
 
 
 class ReadLines(object):
@@ -9,12 +10,8 @@ class ReadLines(object):
 
 class AdventOfCodeHelpers(ReadLines):
     def _group(self) -> List[List[str]]:
-        groups = []
-        group: List[str] = []
-        for line in self.inputs:
-            if line == "":
-                groups.append(group)
-                group = []
-            else:
-                group.append(line)
-        return groups
+        return [
+            list(group)
+            for k, group in itertools.groupby(self.inputs, lambda x: x == "")
+            if not k
+        ]

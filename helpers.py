@@ -5,3 +5,16 @@ class ReadLines(object):
     def __init__(self, file_input: str):
         with open(file_input) as reader:
             self.inputs: List[str] = [line.rstrip() for line in reader]
+
+
+class AdventOfCodeHelpers(ReadLines):
+    def _group(self) -> List[List[str]]:
+        groups = []
+        group: List[str] = []
+        for line in self.inputs:
+            if line == "":
+                groups.append(group)
+                group = []
+            else:
+                group.append(line)
+        return groups

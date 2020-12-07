@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 import itertools
 
 
@@ -9,6 +9,11 @@ class ReadLines(object):
 
 
 class AdventOfCodeHelpers(ReadLines):
+    def __init__(self, file_input: Union[str, None] = None, day: str = ""):
+        if file_input is None:
+            file_input = f"/home/jonathan/projects/2020-advent-of-code/{day}/input.txt"
+        super(AdventOfCodeHelpers, self).__init__(file_input)
+
     def _group(self) -> List[List[str]]:
         return [
             list(group)

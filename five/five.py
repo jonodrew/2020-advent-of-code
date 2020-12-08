@@ -13,6 +13,9 @@ class DayFive(ReadLines):
 
     @staticmethod
     def _process_code(code: List[str], _range: Tuple[int, int]) -> int:
+        """
+        I'm leaving this method in, because it's quite neat - but it has been rendered useless by the more practical _binary_count method below
+        """
         if len(code) == 1:
             keys = {"L": 0, "F": 0, "R": 1, "B": 1}
             return _range[keys[code[0]]]
@@ -26,9 +29,15 @@ class DayFive(ReadLines):
             return DayFive._process_code(code, new_range)
 
     @staticmethod
+    def _binary_count(seat_code: str):
+        letter_key = {"F": "0", "L": "0", "B": "1", "R": "1"}
+        binary_string_code = "".join([letter_key[letter] for letter in seat_code])
+        return int(binary_string_code, 2)
+
+    @staticmethod
     def identify_seat(seat_reference: str) -> Tuple[int, int, int]:
-        row = DayFive._process_code(list(seat_reference[:7]), (0, 127))
-        column = DayFive._process_code(list(seat_reference[-3:]), (0, 7))
+        row = DayFive._binary_count(seat_reference[:7])
+        column = DayFive._binary_count(seat_reference[-3:])
         seat_id = row * 8 + column
         return row, column, seat_id
 

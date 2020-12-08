@@ -6,7 +6,9 @@ from typing import Tuple, List, Dict
 class DaySeven(AdventOfCodeHelpers):
     def __init__(self, file_input=None):
         super(DaySeven, self).__init__(file_input=file_input, day="seven")
-        self.list_of_bag_rules = [self._process_line(rule) for rule in self.inputs]
+        self.list_of_bag_rules: List[Tuple[str, List[Tuple[int, str]]]] = [
+            BagOfHolding.process_rule(rule) for rule in self.inputs
+        ]
         self.all_bags: Dict[str, BagOfHolding] = {}
         while self.inputs:
             self.bag_factory(self.inputs.pop(0))
@@ -37,22 +39,11 @@ class DaySeven(AdventOfCodeHelpers):
             b.may_contain = b.may_contain_bag(may_contain)
             return b
 
-    @staticmethod
-    def _process_line(rule: str,) -> Tuple[str, List[Tuple[int, str]]]:
-        name = " ".join(rule.split(" ")[0:2])
-        bags_within_regex = re.compile(r"\d\s\w+\s\w+")
-        bags = bags_within_regex.findall(rule)
-        bags_as_tuples = [
-            (int(bag_as_list[0]), " ".join(bag_as_list[1:3]))
-            for bag_as_list in [bag.split(" ") for bag in bags]
-        ]
-        return name, bags_as_tuples
-
 
 class BagOfHolding(object):
     def __init__(self, rule_as_string: str):
         self.rule_as_string = rule_as_string
-        self.name, self.contains = self.process_rule()
+        self.name, self.contains = self.process_rule(self.rule_as_string)
         self._may_contain = False
         self.bags_within: List[
             Tuple[int, BagOfHolding]
@@ -62,10 +53,11 @@ class BagOfHolding(object):
     def __repr__(self):
         return self.name
 
-    def process_rule(self) -> Tuple[str, List[Tuple[int, str]]]:
-        name = " ".join(self.rule_as_string.split(" ")[0:2])
+    @staticmethod
+    def process_rule(rule: str) -> Tuple[str, List[Tuple[int, str]]]:
+        name = " ".join(rule.split(" ")[0:2])
         bags_within_regex = re.compile(r"\d\s\w+\s\w+")
-        bags = bags_within_regex.findall(self.rule_as_string)
+        bags = bags_within_regex.findall(rule)
         bags_as_tuples = [
             (int(bag_as_list[0]), " ".join(bag_as_list[1:3]))
             for bag_as_list in [bag.split(" ") for bag in bags]

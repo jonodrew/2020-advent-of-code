@@ -15,7 +15,7 @@ class TestBagOfHolding:
     )
     def test_process_rule(self, rule, output):
         b = BagOfHolding(rule)
-        assert b.process_rule() == output
+        assert b.process_rule(b.rule_as_string) == output
 
     @pytest.mark.parametrize(
         "bag_colour, bags_within",

@@ -1,4 +1,4 @@
-from three.main import DayThree, NoMoveError
+from three.three import DayThree, NoMoveError
 import pytest
 
 

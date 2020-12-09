@@ -1,5 +1,5 @@
 from helpers import ReadLines
-from typing import List, Union
+from typing import List, Union, Tuple
 
 
 class UnencryptedDataError(Exception):
@@ -24,6 +24,7 @@ class Haxx(ReadLines):
             ]
             for value in sub_list
         ]
+        self.weak_data: int = 0
 
     def _check_number(self, number_index: int = 5) -> bool:
         if self.haxx_inputs[number_index] in self._current_sums:
@@ -42,9 +43,33 @@ class Haxx(ReadLines):
             try:
                 self._check_number(i)
             except UnencryptedDataError as e:
+                self.weak_data = self.haxx_inputs[i]
                 return e.message
             self._remove_old_sums()
             self._working_values.pop(0)
             self._working_values.append(self.haxx_inputs[i])
             self._current_sums.extend(self._generate_sum_of_x(self.haxx_inputs[i]))
         return None
+
+    def find_weakness(self) -> int:
+        self.find_unencrypted_value()
+        for i in range(len(self.haxx_inputs)):
+            weak_value = self._sum_to_value(i, 0, 0)
+            if weak_value[0]:
+                contiguous = self.haxx_inputs[i : i + weak_value[1]]
+                return min(contiguous) + max(contiguous)
+        return 0
+
+    def _sum_to_value(
+        self, starting_index: int = 0, running_total: int = 0, number_of_values: int = 0
+    ) -> Tuple[bool, int]:
+        number_of_values += 1
+        running_total += self.haxx_inputs[starting_index]
+        if running_total == self.weak_data:
+            return True, number_of_values
+        elif running_total > self.weak_data:
+            return False, 0
+        else:
+            return self._sum_to_value(
+                starting_index + 1, running_total, number_of_values
+            )

@@ -1,5 +1,6 @@
 from helpers import ReadLines
 from typing import Tuple, List
+from errors import InfiniteLoopError
 
 
 class Booter(ReadLines):
@@ -64,18 +65,3 @@ class DayEight(ReadLines):
                 except InfiniteLoopError:
                     pass
         return 0, 0
-
-
-class InfiniteLoopError(Exception):
-    """
-    Exception raised when an infinite loop is entered.
-
-    Attributes:
-        accumulator -- value of accumulator before error
-        message -- explanation of the error
-    """
-
-    def __init__(self, accumulator):
-        self.accumulator = accumulator
-        self.message = f"About to enter infinite loop. Accumulator value: {accumulator}"
-        super().__init__(self.message)

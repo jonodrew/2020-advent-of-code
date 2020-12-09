@@ -1,11 +1,6 @@
 from helpers import ReadLines
 from typing import List, Union, Tuple
-
-
-class UnencryptedDataError(Exception):
-    def __init__(self, error_value: int):
-        self.message = f"This piece of data is unencrypted: {error_value}"
-        super(UnencryptedDataError, self).__init__(self.message)
+from errors import UnencryptedDataError
 
 
 class Haxx(ReadLines):

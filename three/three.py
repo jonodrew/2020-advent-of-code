@@ -1,11 +1,6 @@
 from helpers import ReadLines
 from typing import Tuple
-
-
-class NoMoveError(Exception):
-    """Raised when user is at bottom of map"""
-
-    pass
+from errors import NoMoveError
 
 
 class DayThree(ReadLines):

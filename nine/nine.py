@@ -38,18 +38,21 @@ class Haxx(ReadLines):
     def _remove_old_sums(self):
         self._current_sums = self._current_sums[self._preamble :]
 
-    def find_unencrypted_value(self) -> Union[str, None]:
+    def find_unencrypted_value(self) -> Union[str, int]:
         for i in range(self._preamble, len(self.haxx_inputs)):
             try:
                 self._check_number(i)
             except UnencryptedDataError as e:
                 self.weak_data = self.haxx_inputs[i]
                 return e.message
-            self._remove_old_sums()
-            self._working_values.pop(0)
-            self._working_values.append(self.haxx_inputs[i])
-            self._current_sums.extend(self._generate_sum_of_x(self.haxx_inputs[i]))
-        return None
+            self._process_failing_value(i)
+        return -1
+
+    def _process_failing_value(self, i: int):
+        self._remove_old_sums()
+        self._working_values.pop(0)
+        self._working_values.append(self.haxx_inputs[i])
+        self._current_sums.extend(self._generate_sum_of_x(self.haxx_inputs[i]))
 
     def find_weakness(self) -> int:
         self.find_unencrypted_value()
@@ -58,7 +61,7 @@ class Haxx(ReadLines):
             if weak_value[0]:
                 contiguous = self.haxx_inputs[i : i + weak_value[1]]
                 return min(contiguous) + max(contiguous)
-        return 0
+        return -1
 
     def _sum_to_value(
         self, starting_index: int = 0, running_total: int = 0, number_of_values: int = 0
@@ -68,7 +71,7 @@ class Haxx(ReadLines):
         if running_total == self.weak_data:
             return True, number_of_values
         elif running_total > self.weak_data:
-            return False, 0
+            return False, -1
         else:
             return self._sum_to_value(
                 starting_index + 1, running_total, number_of_values

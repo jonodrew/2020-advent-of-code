@@ -14,6 +14,8 @@ class AdventOfCodeHelpers(ReadLines):
     def _group(self) -> List[List[str]]:
         return [
             list(group)
-            for k, group in itertools.groupby(self.inputs, lambda x: x == "")
-            if not k
+            for is_empty_string, group in itertools.groupby(
+                self.inputs, lambda x: x == ""
+            )
+            if not is_empty_string
         ]

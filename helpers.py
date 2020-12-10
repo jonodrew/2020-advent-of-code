@@ -1,3 +1,5 @@
+import operator
+from functools import reduce
 from typing import List, Union
 import itertools
 
@@ -19,3 +21,6 @@ class AdventOfCodeHelpers(ReadLines):
             )
             if not is_empty_string
         ]
+
+    def prod(cls, iterable):
+        return reduce(operator.mul, iterable, 1)

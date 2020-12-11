@@ -1,4 +1,4 @@
-from eleven.eleven import GameOfChairs
+from eleven.eleven import GameOfChairs, PartTwo
 
 
 def test_execute():
@@ -24,3 +24,8 @@ def test_iterate():
     for i in range(game._height):
         print(i)
         assert game._current_configuration[i] == game_two._current_configuration[i]
+
+
+def test_part_two():
+    p = PartTwo("/home/jonathan/projects/2020-advent-of-code/tests/eleven/one.txt")
+    assert p.execute() == 26

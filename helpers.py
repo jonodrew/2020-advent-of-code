@@ -5,7 +5,7 @@ import itertools
 
 
 class ReadLines(object):
-    def __init__(self, file_input: Union[str, None] = None, day: str = ""):
+    def __init__(self, day: str, file_input: Union[str, None] = None):
         if file_input is None:
             file_input = f"/home/jonathan/projects/2020-advent-of-code/{day}/input.txt"
         with open(file_input) as reader:

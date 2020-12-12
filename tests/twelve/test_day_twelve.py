@@ -1,16 +1,18 @@
-from twelve.twelve import NavSystem
+from twelve.twelve import Ship, ShipWithWayPoint
 
 
 def test_nav_system():
-    nav = NavSystem(
-        "/home/jonathan/projects/2020-advent-of-code/tests/twelve/part-one-test-one.txt"
+    s = Ship(
+        file_input="/home/jonathan/projects/2020-advent-of-code/tests/twelve/part-one-test-one.txt"
     )
-    nav.execute()
-    assert nav.manhattan_distance() == 25
-    assert nav._current_facing == "W"
+    s.execute()
+    assert s.manhattan_distance() == 25
+    assert s.current_facing == "W"
 
 
-def test_nav_with_entire():
-    nav = NavSystem()
-    nav.execute()
-    assert nav.manhattan_distance() == 0
+def test_part_two():
+    s = ShipWithWayPoint(
+        file_input="/home/jonathan/projects/2020-advent-of-code/tests/twelve/part-one-test-one.txt"
+    )
+    s.execute()
+    assert s.manhattan_distance() == 286

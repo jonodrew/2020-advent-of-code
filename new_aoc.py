@@ -6,14 +6,14 @@ class NewAdventOfCode:
         self.day = day
 
     def new_files_and_folders(self):
-        base_path = "/home/jonathan/projects/2020-advent-of-code/"
+        base_path = os.getcwd()
         code_path = os.path.join(base_path, self.day)
         os.mkdir(code_path)
-        os.mknod(f"{code_path}/{self.day}.py")
-        os.mknod(f"{code_path}/input.txt")
+        open(os.path.join(code_path, f"{self.day}.py"), "w").close()
+        open(f"{code_path}/input.txt", "w").close()
         test_path = os.path.join(base_path, f"tests/{self.day}")
         os.mkdir(test_path)
-        os.mknod(f"{test_path}/test_day_{self.day}.py")
+        open(f"{test_path}/test_day_{self.day}.py", "w").close()
 
 
 def main():
